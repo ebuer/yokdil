@@ -8,10 +8,21 @@ import ColorThemes from './assets/vue/pages/color-themes.vue';
 import Chat from './assets/vue/pages/chat.vue';
 import Vuex from './assets/vue/pages/vuex.vue';
 
+import Categories from './assets/vue/pages/categories.vue';
+import Question from './assets/vue/pages/question.vue';
+
 export default [
   {
     path: '/',
     component: Home
+  },
+  {
+    path: '/categories/',
+    component: Categories
+  },
+  {
+    path: '/question/:category/',
+    component: Question
   },
   {
     path: '/about/',

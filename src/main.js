@@ -46,6 +46,7 @@ export default new Vue({
   components: {
     app
   },
+  pushState: true,
   mounted() {
     window.addEventListener('load', () => {
         // run after everything is in-place
