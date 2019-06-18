@@ -10,6 +10,7 @@ import Vuex from './assets/vue/pages/vuex.vue';
 
 import Categories from './assets/vue/pages/categories.vue';
 import Question from './assets/vue/pages/question.vue';
+import falseQuestions from './assets/vue/pages/false-questions.vue';
 
 export default [
   {
@@ -23,6 +24,10 @@ export default [
   {
     path: '/question/:category/',
     component: Question
+  },
+  {
+    path: '/false-questions/',
+    component: falseQuestions
   },
   {
     path: '/about/',

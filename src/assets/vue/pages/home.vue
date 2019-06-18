@@ -6,6 +6,20 @@
                 <f7-icon f7="play_round_fill"></f7-icon>
                 <span class="subtitle">Başla</span>
             </a>
+            <div class="info">
+                <div class="item">
+                    <p>Sorulan sorular:</p>
+                    <span>{{info.questionsCount}}</span>
+                </div>
+                <div class="item">
+                    <p>Doğru Cevap Sayısı:</p>
+                    <span>{{info.trueQuestionsCount}}</span>
+                </div>
+                <div class="item">
+                    <p>Yanlış Cevap Sayısı:</p>
+                    <span>{{info.falseQuestionsCount}}</span>
+                </div>
+            </div>
         </div>
 
 
@@ -44,6 +58,14 @@
             f7Icon,
             f7Block
         },
+        data(){
+            return {
+                info:JSON.parse(local.get('info'))
+            }
+        },
+        created() {
+            const self = this;
+        }
     };
 </script>
 
@@ -81,6 +103,20 @@
                     }
                 }
 
+            }
+        }
+        .info {
+            .item {
+                width: 100%;
+                p {
+                    display: inline-block;
+                    width: 70%;
+                    font-weight: bold;
+                }
+                span {
+                    display: inline-block;
+                    width: 25%;
+                }
             }
         }
     }

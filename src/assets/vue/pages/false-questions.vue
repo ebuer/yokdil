@@ -1,8 +1,8 @@
 <template>
-    <f7-page class="page-question hide">
-        <f7-navbar title="Soru" back-link="Back" sliding></f7-navbar>
-        <f7-block>
+    <f7-page class="page-question">
+        <f7-navbar title="Soru" back-link="back" sliding></f7-navbar>
 
+        <f7-block v-if="info.falseQuestions.length > 0">
             <f7-card class="question-card">
                 <f7-card-content>
                     <p>Aşağıdakilerden hangisi <b>{{question}}</b> ifadesinin Türkçe
@@ -14,12 +14,15 @@
                            v-on:click="answer(item.isTrue, $event)" fill>
                     {{item.word}}
                 </f7-button>
-
             </f7-card>
             <f7-button class="answer continue" v-if="continueGameBtn" v-on:click="continueGame()">
                 <f7-icon f7="arrow_right_round_fill"></f7-icon>
                 Devam Et
             </f7-button>
+        </f7-block>
+        <f7-block v-else>
+            <p class="info">Hatalı soru kalmamıştır.</p>
+<!--            <f7-link class="btn-cat" href="/categories/">Ana menü</f7-link>-->
         </f7-block>
     </f7-page>
 </template>
@@ -51,7 +54,6 @@
         },
         data() {
             return {
-                category: 'fen',
                 questionId: '',
                 question: '',
                 answers: '',
@@ -64,17 +66,24 @@
             const f7 = self.$f7;
             const f7route = self.$f7route.params
             const $ = f7.$
-            // f7.views.main.router.back('/categories/', {force: true, ignoreCache: true});
+            // f7.views.main.router.back('/categories/', {'force' : true});
 
-
-            let category = f7route.category
-
-            if (category !== undefined && category !== '') self.category = category;
-
-            self.getNewQuestion()
+            if (self.info.falseQuestions.length > 0) {
+                self.getNewQuestion()
+            } else {
+                setTimeout(function () {
+                    $('.page-question').removeClass('hide')
+                })
+            }
 
         },
         methods: {
+            goBack: function(){
+                const self = this;
+                const f7 = self.$f7;
+                const f7route = self.$f7route.params
+                const $ = f7.$;
+            },
             answer: function (answer, event) {
                 const self = this;
                 const f7 = self.$f7;
@@ -84,21 +93,17 @@
 
                 $('.answer').addClass('clicked')
 
+
                 if (!answer) {
                     $(clicked).addClass('false')
-                    self.info.falseQuestions.push({
-                        questionId: self.questionId,
-                        question: self.question,
-                        answers: self.answers,
-                        category: self.category
-                    })
-                    self.info.falseQuestionsCount++
-
                 } else {
-                    self.info.trueQuestionsCount++
-                }
+                    let item = self.info.falseQuestions.find(x => x.questionId === self.questionId)
 
-                self.info.questionsCount++
+                    self.info.falseQuestionsCount--
+                    self.info.trueQuestionsCount++
+
+                    self.info.falseQuestions.splice(self.info.falseQuestions.indexOf(item), 1);
+                }
 
                 local.set('info', JSON.stringify(self.info))
 
@@ -165,39 +170,21 @@
                 const f7 = self.$f7;
                 const f7route = self.$f7route.params;
                 const $ = f7.$;
+
                 self.loader('show')
 
+                let items = self.info.falseQuestions
+
+                let item = items[Math.floor(Math.random() * items.length)];
+
                 setTimeout(function () {
-                    f7.request.get('http://yakakartim.net/api/OyunYokdil/index.php?questionCategory=' + self.category, function (data) {
-                        data = JSON.parse(data)
-                        if (!self.checkId(data.result.id)) self.getNewQuestion()
-                        self.question = data.result.word + "(" + data.result.type + ")";
-                        self.answers = self.randomList(data.result.means);
-                        self.questionId = data.result.id
-                        $('.answer').removeClass('clicked true false')
-                        self.setId(self.questionId)
-                        self.loader('hide')
-                    });
+                    self.question = item['question']
+                    self.answers = item.answers
+                    self.questionId = item.questionId
+                    $('.answer').removeClass('clicked true false')
+
+                    self.loader('hide')
                 }, 300)
-            },
-            checkId: function (id) {
-                let status = true
-                let idList = JSON.parse(window.localStorage.getItem('id-list'));
-                if (idList !== null && idList.some(e => e === id)) status = false
-                return status
-
-            },
-            setId: function (id) {
-                let idList = JSON.parse(window.localStorage.getItem('id-list'));
-
-                if (idList === null || idList === undefined) idList = []
-
-                if (idList.length > 50) idList.shift()
-
-
-                idList.push(id)
-
-                window.localStorage.setItem('id-list', JSON.stringify(idList));
             }
         }
     }

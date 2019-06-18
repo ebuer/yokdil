@@ -3,10 +3,12 @@
         <f7-navbar title="Kategori Seç" back-link="Framework7"></f7-navbar>
         <!--        <f7-block-title>Kategori Seç</f7-block-title>-->
         <f7-block>
-
             <f7-link class="btn-cat" href="/question/fen/">Fen</f7-link>
             <f7-link class="btn-cat" href="/question/sosyal/">Sosyal</f7-link>
             <f7-link class="btn-cat" href="/question/saglik/">Saglik</f7-link>
+        </f7-block>
+        <f7-block>
+            <f7-link class="btn-cat" href="/false-questions/">Yanlış Soruları tekrar cevapla</f7-link>
         </f7-block>
     </f7-page>
 </template>
@@ -24,6 +26,20 @@
             f7Col,
             f7Link
         },
+        data(){
+            return {
+                info:JSON.parse(local.get('info'))
+            }
+        },
+        created() {
+            const self = this;
+            const f7 = self.$f7;
+            const f7route = self.$f7route.params
+            const $ = f7.$
+            // f7.views.main.router.refreshPage()
+            // f7.views.main.router.back('categories', {force: true, ignoreCache: true});
+
+        }
     };
 </script>
 

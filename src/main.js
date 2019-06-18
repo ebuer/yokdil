@@ -36,6 +36,31 @@ import store from './assets/vuex/storage.js';
 // Different F7-Vue plugin initialization with f7 v3.0
 Framework7.use(Framework7Vue);
 
+window.local = {
+  set: function (name, value) {
+    window.localStorage.setItem(name, value);
+  },
+  get: function (name) {
+    return window.localStorage.getItem(name);
+  },
+  remove: function (name) {
+    window.localStorage.removeItem(name);
+  },
+  clear: function () {
+    localStorage.clear();
+  },
+};
+
+let localstorage = local.get('info')
+if (localstorage === undefined || localstorage === null) {
+  let starter = {
+    questionsCount:0,
+    trueQuestionsCount:0,
+    falseQuestionsCount:0,
+    falseQuestions:[],
+  }
+  local.set('info', JSON.stringify(starter));
+}
 
 // Init Vue App
 export default new Vue({
@@ -49,8 +74,8 @@ export default new Vue({
   pushState: true,
   mounted() {
     window.addEventListener('load', () => {
-        // run after everything is in-place
-        FastClick.attach(document.body);
+      // run after everything is in-place
+      FastClick.attach(document.body);
     });
   },
 });
