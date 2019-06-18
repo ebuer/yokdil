@@ -1,6 +1,13 @@
 <template>
     <f7-page class="page-question hide">
-        <f7-navbar title="Soru" back-link="Back" sliding></f7-navbar>
+        <div class="navbar">
+            <div class="navbar-inner sliding">
+                <div class="left"><a :href="'/levels/'+category+'/'" class="link icon-only icon-only"><i class="icon icon-back"></i></a>
+                </div>
+                <div class="title">Soru</div>
+            </div>
+        </div>
+
         <f7-block>
 
             <f7-card class="question-card">
@@ -52,11 +59,12 @@
         data() {
             return {
                 category: 'fen',
+                levelIndex: '0',
                 questionId: '',
                 question: '',
                 answers: '',
                 continueGameBtn: false,
-                info: JSON.parse(local.get('info'))
+                app: JSON.parse(local.get('app'))
             }
         },
         created() {
@@ -68,8 +76,12 @@
 
 
             let category = f7route.category
+            let index = f7route.levelIndex
+
 
             if (category !== undefined && category !== '') self.category = category;
+            if (index !== undefined && index !== '') self.levelIndex = index;
+
 
             self.getNewQuestion()
 
@@ -84,29 +96,70 @@
 
                 $('.answer').addClass('clicked')
 
+
+                let info = self.app.info
+                let levelInfo = self.app.levelList[self.category].levels[self.levelIndex]
+
+
                 if (!answer) {
                     $(clicked).addClass('false')
-                    self.info.falseQuestions.push({
+                    self.app.info.falseQuestions.push({
                         questionId: self.questionId,
                         question: self.question,
                         answers: self.answers,
                         category: self.category
                     })
-                    self.info.falseQuestionsCount++
+                    info.falseQuestionsCount++
+                    levelInfo.falseQuestionsCount++
 
                 } else {
-                    self.info.trueQuestionsCount++
+                    info.trueQuestionsCount++
+                    levelInfo.trueQuestionsCount++
+
                 }
 
-                self.info.questionsCount++
+                info.questionsCount++
+                levelInfo.count++
 
-                local.set('info', JSON.stringify(self.info))
+                let totalLevelCount = levelInfo.numb
+                let currentLevelCount = levelInfo.count
 
-                $('.answer[data-answer="true"]').addClass('true')
-
-                self.continueGameBtn = true;
+                levelInfo.percent = self.calculatePercent(totalLevelCount, currentLevelCount)+'%'
 
 
+                if(currentLevelCount === totalLevelCount){
+                    let index = parseInt(self.levelIndex) + 1
+                    self.app.levelList[self.category].levels[index].isOpen = true
+                }
+
+
+                setTimeout(function () {
+                    // self.app.info = info
+                    // self.app.levelList[self.category].levels[self.levelIndex] = levelInfo
+
+                    local.set('app', JSON.stringify(self.app))
+
+                    $('.answer[data-answer="true"]').addClass('true')
+
+                    self.continueGameBtn = true;
+                })
+
+
+
+
+            },
+            calculatePercent: function (total, numb) {
+                const self = this;
+                let pPos = parseInt(total)
+                let pEarned = parseInt(numb);
+                let percent = "";
+                if (isNaN(pPos) || isNaN(pEarned)) {
+                    percent = " ";
+                } else {
+                    percent = ((pEarned / pPos) * 100).toFixed(1);
+                }
+
+                return percent
             },
             continueGame() {
                 const self = this;
@@ -181,17 +234,17 @@
                 }, 300)
             },
             checkId: function (id) {
+                const self = this;
                 let status = true
-                let idList = JSON.parse(window.localStorage.getItem('id-list'));
+                let idList = self.app.idList;
                 // if (idList !== null && idList.some(e => e === id)) status = false
                 if (idList.includes(id)) status = false
                 return status
 
             },
             setId: function (id) {
-                let idList = JSON.parse(window.localStorage.getItem('id-list'));
-
-                if (idList === null || idList === undefined) idList = []
+                const self = this;
+                let idList = self.app.idList;
 
                 // delete id if array over 50
                 // if (idList.length > 50) idList.shift()
@@ -199,7 +252,8 @@
 
                 idList.push(id)
 
-                window.localStorage.setItem('id-list', JSON.stringify(idList));
+
+                window.localStorage.setItem('app', JSON.stringify(self.app));
             }
         }
     }

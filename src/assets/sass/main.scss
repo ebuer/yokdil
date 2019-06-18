@@ -299,3 +299,46 @@ input {
 	}
 }
 // question page scss end
+
+// category and levels pages scss start
+
+.page-category, .page-levels {
+	background-color: #eff2fb;
+
+	.navbar {
+		background: #fff;
+		&:before {
+			background: transparent;
+		}
+		.navbar-inner {
+			.left {
+				position: absolute;
+				z-index: 9999;
+				.icon {
+					&:after {
+						font-weight: bold;
+						color: #49c0dc;
+					}
+				}
+			}
+			.title {
+				width: 100%;
+				text-align: center;
+				font-weight: bold;
+				font-size: 23px;
+			}
+		}
+	}
+
+	.btn-cat {
+		display: block;
+		width: 100%;
+		text-align: center;
+		padding: 10px 0;
+		background-color: #49c0dc;
+		color: #FFFFFF;
+		margin-top: 15px;
+	}
+}
+
+// category and levels pages scss end

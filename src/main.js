@@ -51,22 +51,114 @@ window.local = {
   },
 };
 
-let localstorage = local.get('info')
-if (localstorage === undefined || localstorage === null) {
-  let starter = {
-    questionsCount: 0,
-    trueQuestionsCount: 0,
-    falseQuestionsCount: 0,
-    falseQuestions: [],
-  }
-  local.set('info', JSON.stringify(starter));
-}
-let idList = local.get('id-list')
-if (idList === null || idList === undefined) local.set('id-list', '[]')
+
+
+let localstorage = local.get('app');
+if (localstorage === null || localstorage === undefined || localstorage === '') {
+  Framework7.request.get('http://yakakartim.net/api/OyunYokdil/info.php', function (data) {
+
+    // create starter object
+
+    let starterObject = {
+      info: {
+        questionsCount: 0,
+        trueQuestionsCount: 0,
+        falseQuestionsCount: 0,
+        falseQuestions: [],
+      },
+      idList: [],
+      levelList: {}
+
+    };
+
+    // create levels object settings
+
+    let result = JSON.parse(data).results;
+    let keys = Object.keys(result)
+
+    const getLevelsArray = function (numb, limit) {
+      let array = []
+      let s = limit
+      let levels = 0
+      let first = true;
+
+      for (let i = 0; i <= numb; i++) {
+
+        if (i === s) {
+
+          let isOpen = false
+          if(first){
+            isOpen = true;
+            first = false;
+          }
+
+
+
+          levels++
+          s = s + limit
+
+          array.push({
+            level: levels,
+            numb: limit,
+            count:0,
+            percent:'0%',
+            trueQuestionsCount:0,
+            falseQuestionsCount:0,
+            currentLevel:false,
+            isOpen:isOpen,
+          });
+        }
+
+        if (i === numb) {
+          let u = numb - (s - limit)
+          levels++
+
+          array.push({
+            level: levels,
+            numb: u,
+            count:0,
+            percent:'0%',
+            trueQuestionsCount:0,
+            falseQuestionsCount:0,
+            currentLevel:false,
+            isOpen:false,
+          });
+
+        }
+      }
+
+      return array;
+    }
+
+    keys.forEach(function (item) {
+
+      let obj = {
+        name: item,
+        count: result[item],
+        levels: getLevelsArray(result[item], 1000),
+        questionNumb: 0,
+        percent: '0%',
+      };
+
+      starterObject.levelList[item] =obj;
+
+    });
+
+    //  end level object setting
+
+    //  set localstorage
+    local.set('app', JSON.stringify(starterObject));
+    location.reload();
+    // Framework7.view.main.router.refreshPage();
+
+  });
+
+
+}// endif localstorage
+
 
 // Init Vue App
-export default
-new Vue({
+export default new Vue({
   // Root Element
   el: '#app',
   store,

@@ -1,8 +1,15 @@
 <template>
     <f7-page class="page-question">
-        <f7-navbar title="Soru" back-link="back" sliding></f7-navbar>
+        <div class="navbar">
+            <div class="navbar-inner sliding">
+                <div class="left"><a href="/categories/" class="link icon-only icon-only"><i class="icon icon-back"></i></a>
+                </div>
+                <div class="title">Yanlış Cevaplanan Sorular</div>
+            </div>
+        </div>
 
-        <f7-block v-if="info.falseQuestions.length > 0">
+
+        <f7-block v-if="app.info.falseQuestions.length > 0">
             <f7-card class="question-card">
                 <f7-card-content>
                     <p>Aşağıdakilerden hangisi <b>{{question}}</b> ifadesinin Türkçe
@@ -58,7 +65,7 @@
                 question: '',
                 answers: '',
                 continueGameBtn: false,
-                info: JSON.parse(local.get('info'))
+                app: JSON.parse(local.get('app'))
             }
         },
         created() {
@@ -68,7 +75,7 @@
             const $ = f7.$
             // f7.views.main.router.back('/categories/', {'force' : true});
 
-            if (self.info.falseQuestions.length > 0) {
+            if (self.app.info.falseQuestions.length > 0) {
                 self.getNewQuestion()
             } else {
                 setTimeout(function () {
@@ -97,15 +104,15 @@
                 if (!answer) {
                     $(clicked).addClass('false')
                 } else {
-                    let item = self.info.falseQuestions.find(x => x.questionId === self.questionId)
+                    let item = self.app.info.falseQuestions.find(x => x.questionId === self.questionId)
 
-                    self.info.falseQuestionsCount--
-                    self.info.trueQuestionsCount++
+                    self.app.info.falseQuestionsCount--
+                    self.app.info.trueQuestionsCount++
 
-                    self.info.falseQuestions.splice(self.info.falseQuestions.indexOf(item), 1);
+                    self.app.info.falseQuestions.splice(self.app.info.falseQuestions.indexOf(item), 1);
                 }
 
-                local.set('info', JSON.stringify(self.info))
+                local.set('app', JSON.stringify(self.app))
 
                 $('.answer[data-answer="true"]').addClass('true')
 
@@ -173,7 +180,7 @@
 
                 self.loader('show')
 
-                let items = self.info.falseQuestions
+                let items = self.app.info.falseQuestions
 
                 let item = items[Math.floor(Math.random() * items.length)];
 

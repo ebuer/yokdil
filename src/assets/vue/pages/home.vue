@@ -9,15 +9,15 @@
             <div class="info">
                 <div class="item">
                     <p>Sorulan sorular:</p>
-                    <span>{{info.questionsCount}}</span>
+                    <span>{{app.info.questionsCount}}</span>
                 </div>
                 <div class="item">
                     <p>Doğru Cevap Sayısı:</p>
-                    <span>{{info.trueQuestionsCount}}</span>
+                    <span>{{app.info.trueQuestionsCount}}</span>
                 </div>
                 <div class="item">
                     <p>Yanlış Cevap Sayısı:</p>
-                    <span>{{info.falseQuestionsCount}}</span>
+                    <span>{{app.info.falseQuestionsCount}}</span>
                 </div>
             </div>
         </div>
@@ -58,11 +58,12 @@
         },
         data(){
             return {
-                info:JSON.parse(local.get('info'))
+                app:JSON.parse(local.get('app'))
             }
         },
         created() {
             const self = this;
+            console.log(self.app)
         }
     };
 </script>

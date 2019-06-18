@@ -1,12 +1,22 @@
 <template>
     <f7-page class="page-category">
-        <f7-navbar title="Kategori Seç" back-link="Framework7"></f7-navbar>
-        <!--        <f7-block-title>Kategori Seç</f7-block-title>-->
+        <div class="navbar">
+            <div class="navbar-inner sliding">
+                <div class="left"><a href="/" class="link icon-only icon-only"><i class="icon icon-back"></i></a>
+                </div>
+                <div class="title">Kategori Seç</div>
+            </div>
+        </div>
         <f7-block>
-            <f7-link class="btn-cat" href="/question/fen/">Fen</f7-link>
-            <f7-link class="btn-cat" href="/question/sosyal/">Sosyal</f7-link>
-            <f7-link class="btn-cat" href="/question/saglik/">Saglik</f7-link>
+            <f7-link class="btn-cat" href="/levels/fen/">Fen</f7-link>
+            <f7-link class="btn-cat" href="/levels/sosyal/">Sosyal</f7-link>
+            <f7-link class="btn-cat" href="/levels/saglik/">Saglik</f7-link>
         </f7-block>
+<!--        <f7-block>-->
+<!--            <f7-link class="btn-cat" href="/question/fen/">Fen</f7-link>-->
+<!--            <f7-link class="btn-cat" href="/question/sosyal/">Sosyal</f7-link>-->
+<!--            <f7-link class="btn-cat" href="/question/saglik/">Saglik</f7-link>-->
+<!--        </f7-block>-->
         <f7-block>
             <f7-link class="btn-cat" href="/false-questions/">Yanlış Soruları tekrar cevapla</f7-link>
         </f7-block>
@@ -28,7 +38,7 @@
         },
         data(){
             return {
-                info:JSON.parse(local.get('info'))
+                app:JSON.parse(local.get('app'))
             }
         },
         created() {
@@ -44,42 +54,5 @@
 </script>
 
 <style lang="scss">
-    .page-category {
-        background-color: #eff2fb;
-
-        .navbar {
-            background: #fff;
-            &:before {
-                background: transparent;
-            }
-            .navbar-inner {
-                .left {
-                    position: absolute;
-                    z-index: 9999;
-                    .icon {
-                        &:after {
-                            font-weight: bold;
-                            color: #49c0dc;
-                        }
-                    }
-                }
-                .title {
-                    width: 100%;
-                    text-align: center;
-                    font-weight: bold;
-                    font-size: 23px;
-                }
-            }
-        }
-
-        .btn-cat {
-            display: block;
-            width: 100%;
-            text-align: center;
-            padding: 10px 0;
-            background-color: #49c0dc;
-            color: #FFFFFF;
-            margin-top: 15px;
-        }
-    }
+    @import "../../sass/main";
 </style>

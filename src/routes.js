@@ -9,6 +9,7 @@ import Chat from './assets/vue/pages/chat.vue';
 import Vuex from './assets/vue/pages/vuex.vue';
 
 import Categories from './assets/vue/pages/categories.vue';
+import Levels from './assets/vue/pages/levels.vue';
 import Question from './assets/vue/pages/question.vue';
 import falseQuestions from './assets/vue/pages/false-questions.vue';
 
@@ -22,7 +23,11 @@ export default [
     component: Categories
   },
   {
-    path: '/question/:category/',
+    path: '/levels/:category',
+    component: Levels
+  },
+  {
+    path: '/question/:category/:levelIndex',
     component: Question
   },
   {
