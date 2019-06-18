@@ -168,6 +168,14 @@ export default new Vue({
     app
   },
   pushState: true,
+  created(){
+    // if darkmode is true add dark class
+    let app = JSON.parse(local.get('app'));
+    if(app.darkmode){
+      Framework7.$('body').addClass('dark');
+    }
+
+  },
   mounted() {
     window.addEventListener('load', () => {
       // run after everything is in-place

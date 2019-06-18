@@ -20,6 +20,7 @@
                     <span>{{app.info.falseQuestionsCount}}</span>
                 </div>
             </div>
+            <button v-on:click="darkmode()">dark mode</button>
         </div>
     </f7-page>
 </template>
@@ -63,7 +64,24 @@
         },
         created() {
             const self = this;
-            console.log(self.app)
+        },
+        methods:{
+            darkmode:function () {
+                const self = this;
+                const f7 = self.$f7;
+                const f7route = self.$f7route.params
+                const $ = f7.$
+                let dark = self.app.darkmode
+                if(dark){
+                    dark = false
+                    $('body').removeClass('dark');
+                }else {
+                    dark = true
+                    $('body').addClass('dark');
+                }
+                self.app.darkmode = dark;
+                local.set('app', JSON.stringify(self.app))
+            }
         }
     };
 </script>
