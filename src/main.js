@@ -54,16 +54,19 @@ window.local = {
 let localstorage = local.get('info')
 if (localstorage === undefined || localstorage === null) {
   let starter = {
-    questionsCount:0,
-    trueQuestionsCount:0,
-    falseQuestionsCount:0,
-    falseQuestions:[],
+    questionsCount: 0,
+    trueQuestionsCount: 0,
+    falseQuestionsCount: 0,
+    falseQuestions: [],
   }
   local.set('info', JSON.stringify(starter));
 }
+let idList = local.get('id-list')
+if (idList === null || idList === undefined) local.set('id-list', '[]')
 
 // Init Vue App
-export default new Vue({
+export default
+new Vue({
   // Root Element
   el: '#app',
   store,

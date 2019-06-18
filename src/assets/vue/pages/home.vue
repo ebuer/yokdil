@@ -21,8 +21,6 @@
                 </div>
             </div>
         </div>
-
-
     </f7-page>
 </template>
 <script>
@@ -90,7 +88,7 @@
                     /*height: 125px;*/
                     display: block;
                     text-align: center;
-                    margin-top: 20vh;
+                    margin-top: 10vh;
                     .icon {
                         font-size: 80px;
                         display: block;
@@ -106,16 +104,19 @@
             }
         }
         .info {
+            margin-top: 10vh;
             .item {
                 width: 100%;
                 p {
                     display: inline-block;
                     width: 70%;
                     font-weight: bold;
+                    margin: 8px 0;
                 }
                 span {
                     display: inline-block;
                     width: 25%;
+                    font-weight: bold;
                 }
             }
         }

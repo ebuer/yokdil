@@ -183,7 +183,8 @@
             checkId: function (id) {
                 let status = true
                 let idList = JSON.parse(window.localStorage.getItem('id-list'));
-                if (idList !== null && idList.some(e => e === id)) status = false
+                // if (idList !== null && idList.some(e => e === id)) status = false
+                if (idList.includes(id)) status = false
                 return status
 
             },
@@ -192,7 +193,8 @@
 
                 if (idList === null || idList === undefined) idList = []
 
-                if (idList.length > 50) idList.shift()
+                // delete id if array over 50
+                // if (idList.length > 50) idList.shift()
 
 
                 idList.push(id)
