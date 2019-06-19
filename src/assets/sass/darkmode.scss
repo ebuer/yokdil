@@ -2,6 +2,9 @@ body {
   &.dark {
     .page {
       background-color: black !important;
+      &:after {
+        background: black !important;
+      }
 
       .icon, h3, span, p, a {
         color: #eeeeeee8 !important;
@@ -38,11 +41,5 @@ body {
       }
     }
 
-    .preloader-backdrop {
-      background-color: black !important;
-      div, span {
-        background-color: black !important;
-      }
-    }
   }
 }
