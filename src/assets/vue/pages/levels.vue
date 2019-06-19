@@ -70,6 +70,7 @@
     @import "../../sass/main";
     .btn-cat {
         position: relative;
+        font-weight: bold;
         .icon {
             font-size: 20px;
             padding-left: 5px;
@@ -79,6 +80,8 @@
             right: 10px;
             top: 50%;
             transform: translateY(-50%);
+            font-weight: bold;
+            font-size: 15px;
         }
     }
 </style>
