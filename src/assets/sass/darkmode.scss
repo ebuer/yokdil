@@ -39,8 +39,10 @@ body {
     }
 
     .preloader-backdrop {
-      opacity: 1;
       background-color: black !important;
+      div, span {
+        background-color: black !important;
+      }
     }
   }
 }
