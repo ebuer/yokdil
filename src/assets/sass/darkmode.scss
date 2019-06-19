@@ -1,0 +1,46 @@
+body {
+  &.dark {
+    .page {
+      background-color: black !important;
+
+      .icon, h3, span, p, a {
+        color: #eeeeeee8 !important;
+      }
+
+      .btn-cat, .completeLevel {
+        background-color: #eeeeeee8;
+        color: black !important;
+
+        .percent, .icon {
+          color: black !important;
+        }
+      }
+
+      .answer-card {
+        .answer.button {
+          color: white !important;
+          background-color: black !important;
+          border-color: white;
+
+          &.false {
+            background-color: #f443366b !important;
+          }
+
+          &.true {
+            background-color: #99d8157a !important;
+          }
+        }
+      }
+
+      .question-card {
+        background-color: black;
+        border: 1px solid #fff;
+      }
+    }
+
+    .preloader-backdrop {
+      opacity: 1;
+      background-color: black !important;
+    }
+  }
+}

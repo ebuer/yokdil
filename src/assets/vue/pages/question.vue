@@ -2,14 +2,14 @@
     <f7-page class="page-question hide">
         <div class="navbar">
             <div class="navbar-inner sliding">
-                <div class="left"><a :href="'/levels/'+category+'/'" class="link icon-only icon-only"><i class="icon icon-back"></i></a>
+                <div class="left"><a :href="'/levels/'+category+'/'" class="link icon-only icon-only"><i
+                        class="icon icon-back"></i></a>
                 </div>
                 <div class="title">Soru</div>
             </div>
         </div>
 
         <f7-block>
-
             <f7-card class="question-card">
                 <f7-card-content>
                     <p>Aşağıdakilerden hangisi <b>{{question}}</b> ifadesinin Türkçe
@@ -23,10 +23,19 @@
                 </f7-button>
 
             </f7-card>
-            <f7-button class="answer continue" v-if="continueGameBtn" v-on:click="continueGame()">
-                <f7-icon f7="arrow_right_round_fill"></f7-icon>
-                Devam Et
-            </f7-button>
+            <div v-if="app.levelList[category].levels[levelIndex].isOpen">
+                <f7-button class="answer continue" v-if="continueGameBtn" v-on:click="continueGame()">
+                    <f7-icon f7="arrow_right_round_fill"></f7-icon>
+                    Devam Et
+                </f7-button>
+            </div>
+            <div v-else>
+                <f7-card>
+                    <f7-link class="answer completeLevel" :href="'/levels/'+category+'/'">Etap tamamlandı. Başka etap veya Kategori
+                        seçiniz
+                    </f7-link>
+                </f7-card>
+            </div>
         </f7-block>
     </f7-page>
 </template>
@@ -58,6 +67,7 @@
         },
         data() {
             return {
+                levelcomplete: false,
                 category: 'fen',
                 levelIndex: '0',
                 questionId: '',
@@ -124,12 +134,15 @@
                 let totalLevelCount = levelInfo.numb
                 let currentLevelCount = levelInfo.count
 
-                levelInfo.percent = self.calculatePercent(totalLevelCount, currentLevelCount)+'%'
+                levelInfo.percent = self.calculatePercent(totalLevelCount, currentLevelCount) + '%'
 
 
-                if(currentLevelCount === totalLevelCount){
-                    let index = parseInt(self.levelIndex) + 1
-                    self.app.levelList[self.category].levels[index].isOpen = true
+                if (currentLevelCount === totalLevelCount || currentLevelCount > totalLevelCount) {
+                    const index = parseInt(self.levelIndex) + 1
+                    if (self.app.levelList[self.category].levels[index] !== undefined) self.app.levelList[self.category].levels[index].isOpen = true
+
+                    self.app.levelList[self.category].levels[self.levelIndex].isOpen = false
+
                 }
 
 
@@ -143,8 +156,6 @@
 
                     self.continueGameBtn = true;
                 })
-
-
 
 
             },
@@ -262,5 +273,15 @@
 <style lang="scss">
     @import "../../sass/main";
 
+    .page-question {
+        .answer {
+            &.completeLevel {
+                text-transform: uppercase !important;
+                background-color: #99d814 !important;
+                font-weight: bold;
+                text-align: center;
+            }
+        }
 
+    }
 </style>

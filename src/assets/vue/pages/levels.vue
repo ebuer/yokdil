@@ -10,8 +10,10 @@
         </div>
         <f7-block>
             <f7-link class="btn-cat" v-bind:class="{ disabled: !item.isOpen, 'complete': item.percent==='100%' }"
-                     :href="'/question/'+category+'/'+key+'/'" v-for="(item, key) in info.levels">Etap {{key+1}} <span
-                    class="percent">{{item.percent}}</span></f7-link>
+                     :href="'/question/'+category+'/'+key+'/'" v-for="(item, key) in info.levels">Etap {{key+1}}
+                <f7-icon v-if="!item.isOpen" f7="lock_fill"></f7-icon>
+                <f7-icon v-else f7="unlock_fill"></f7-icon>
+                <span class="percent">{{item.percent}}</span></f7-link>
         </f7-block>
     </f7-page>
 </template>
@@ -66,4 +68,17 @@
 
 <style lang="scss">
     @import "../../sass/main";
+    .btn-cat {
+        position: relative;
+        .icon {
+            font-size: 20px;
+            padding-left: 5px;
+        }
+        .percent {
+           position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
 </style>
